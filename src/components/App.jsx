@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef,useMemo } from "react";
 
 import { Section } from './Section/Section';
 import { ContactsForm } from './ContactsForm/ContactsForm';
@@ -11,6 +11,7 @@ export const App = () => {
   const [contacts, setContacts] = useState([])
   const [filter, setFilter] = useState('')
  
+  const inputRef = useRef();
   
   useEffect(() => {
     setContacts(JSON.parse(localStorage.getItem('contacts')) || [])
@@ -22,12 +23,12 @@ export const App = () => {
 
   const addContact = (contactName, contactNumber, contactId) => {
     if (checkName(contactName)) {
-      setContacts(contacts.push({ contactName, contactNumber,contactId }));
-      // setContacts(prevContacts => prevContacts = contacts)
-      setContacts(prevContacts => {
-        return{...prevContacts, ...contacts}
-      })
+      const newContact = { contactName, contactNumber, contactId }
 
+      // setContacts(prevContacts => prevContacts = contacts)
+      setContacts(prevState => 
+        [...prevState, newContact]
+      )
     }
   }
 
@@ -40,19 +41,19 @@ export const App = () => {
     return true;
   }
 
-  const handleChange = (event) => {
-    const targetValue = event.target.value
-    setFilter(filter = targetValue)
+  const handleChange = () => {
+    setFilter(inputRef.current.value)
   }
 
-  const filterContacts = (contacts) => {
-    return contacts.filter(contact => contact.contactName.toLowerCase().includes(setFilter(filter.toLowerCase())));
-  }
+  const filteredContacts = useMemo( 
+    () => contacts.filter(contact => contact.contactName.toLowerCase().includes(setFilter(filter.toLowerCase()))),
+    [contacts,filter])
+  
 
   const deleteContact = (event) => {
     const delateValue = event.turget.value
     if(delateValue === contacts) {
-      setContacts(contacts = contacts.filter((contact) => contact.contactId !== event.target.id))
+      setContacts(contacts.filter((contact) => contact.contactId !== event.target.id))
     }
   }
 
@@ -66,12 +67,13 @@ export const App = () => {
         
         <Section title="Contacts"> 
           <Filter
+            inputRef = {inputRef}
             filter={filter}
             handleChange={handleChange} 
           />
 
           <ContactList
-            filteredContacts={filterContacts(contacts)}
+            filteredContacts={filteredContacts}
             deleteContact={deleteContact} 
           />
         </Section>

@@ -6,7 +6,7 @@ export const ContactList = ({ filteredContacts, deleteContact }) => {
     <ul className= {css.contactList}>
       {filteredContacts.map(({contactName, contactNumber, contactId}) => {
         return (
-          <li key={contactId} className= {css.contactItem}>
+          <li key={contactId} className={css.contactItem}>
             <p>{contactName}: {contactNumber}</p>
             <button type="button" onClick={deleteContact} id={contactId} className= {css.deleteBtn}>Delete</button>
           </li>

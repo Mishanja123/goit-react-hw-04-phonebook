@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import css  from "./Filter.module.css";
 
-export const Filter = ({filter, handleChange}) => {
+export const Filter = ({filter, handleChange, inputRef}) => {
     return (
         <form className={css.form}>
         <label htmlFor="filter" className= {css.lable}>
@@ -10,6 +10,7 @@ export const Filter = ({filter, handleChange}) => {
         className={css.input}
           type="text"
           name="filter"
+          ref={inputRef}
           pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           onChange={handleChange}
           value={filter}
