@@ -71,7 +71,7 @@ export const App = () => {
           />
 
           <ContactList
-            filteredContacts={filterContacts}
+            filteredContacts={filterContacts(contacts)}
             deleteContact={deleteContact} 
           />
         </Section>
