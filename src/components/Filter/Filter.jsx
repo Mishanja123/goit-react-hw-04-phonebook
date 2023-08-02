@@ -22,6 +22,7 @@ export const Filter = ({filter, handleChange, inputRef}) => {
 }
 
 Filter.propTypes = {
+  inputRef: PropTypes.object.isRequired,
   filter: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired
 }

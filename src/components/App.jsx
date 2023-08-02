@@ -45,17 +45,14 @@ export const App = () => {
     setFilter(inputRef.current.value)
   }
 
-  const filteredContacts = useMemo( 
-    () => contacts.filter(contact => contact.contactName.toLowerCase().includes(setFilter(filter.toLowerCase()))),
-    [contacts,filter])
-  
+    const filteredContacts = useMemo(
+      () => contacts.filter(contact => contact.contactName.toLowerCase().includes(filter.toLowerCase())),
+      [contacts, filter]
+    );
 
-  const deleteContact = (event) => {
-    const delateValue = event.turget.value
-    if(delateValue === contacts) {
-      setContacts(contacts.filter((contact) => contact.contactId !== event.target.id))
+    const deleteContact = ({ target }) => {
+      setContacts(contacts.filter((contact) => contact.contactId !== target.id))
     }
-  }
 
     return (
       <>
