@@ -1,33 +1,32 @@
-import { Component } from 'react'
+import { useState } from 'react'
 import { nanoid } from 'nanoid'
 import PropTypes from "prop-types";
 
 import css  from "./ContactsForm.module.css";
 
-export class ContactsForm extends Component {
-    state = {
-        name: '',
-        number: '',
-      };
 
-  addContact = this.props.addContact;
+export const ContactsForm = ({addContact}) => {
+  const [name, setName] = useState('')
+  const [number,setNumber] = useState('')
 
-  onFormSubmit = (event) => {
+
+ const onFormSubmit = (event) => {
     event.preventDefault();
     const contactName = event.currentTarget.elements.name.value
     const contactNumber = event.currentTarget.elements.number.value
     const contactId = nanoid()
-    this.addContact(contactName, contactNumber, contactId)
-    this.setState({ name: '', number: '' });
+    addContact(contactName, contactNumber, contactId)
+    setName(name = '')
+    setNumber(number = '')
   }
-  handleChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-  };
 
-  render() {
-    const { name, number } = this.state;
+  const handleChange = (event) => {
+    const targetName = event.currentTarget.value
+    setName(name = targetName)
+  }
+
     return (
-      <form className= {css.form} action="add contact" onSubmit={this.onFormSubmit}>
+      <form className= {css.form} action="add contact" onSubmit={onFormSubmit}>
         <label htmlFor="name" className={css.label}>
           Name
           <input
@@ -39,7 +38,7 @@ export class ContactsForm extends Component {
           required
           placeholder="Enter name"
           value={name}
-          onChange={this.handleChange}
+          onChange={handleChange}
         />
         </label>
         <label htmlFor="number" className={css.label}>
@@ -53,13 +52,12 @@ export class ContactsForm extends Component {
           required
           placeholder="Enter number"
           value={number}
-          onChange={this.handleChange}
+          onChange={handleChange}
         />
         </label>
         <button type="submit" className={css.btn} disabled={!name || !number}>Add contact</button>
     </form>
   )
-  }
 }
 
 ContactsForm.propTypes = {
